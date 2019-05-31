@@ -1,0 +1,90 @@
+<!DOCTYPE >
+<html>
+  <head>
+    <title>匾额预览</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="css/index.css"/>
+  </head>
+  <body>
+<div id="header">
+<div class="top">
+ <h1>基于WebGL的书法匾额生成</h1>
+     <div class="nav">
+       <a href="main.html" class="hover";>首页</a><a href="query.asp" >书法字查询</a>     
+       <a href="vectorization.asp">书法字矢量化</a>
+       <a href="adjust.html">书法字调整</a><a href="3Dmodel.html">三维模型设计</a>
+       <a style="color:BLUE;">匾额预览</a><a href="create.html">匾额合成</a>
+     </div>
+  </div>
+</div>
+<div>
+    <div id="ele">
+    </div>
+    <div class="pconter">
+    <div class="dragWrap">
+        <img src="images/1.jpg" width="50px" title="拖拽我" draggable="true" class="drag-item">
+        <img src="images/2.jpg" width="50px" title="拖拽我" draggable="true" class="drag-item">
+        <img src="images/3.jpg" width="50px" title="拖拽我" draggable="true" class="drag-item">
+        <img id="preview-img" width="50px"  draggable="true" class="drag-item">
+        <input type="file" onchange="previewHandle(this)" />  
+    </div>
+    <!--生成图片区域-->
+    <div class="cacheEle">
+        <div data-type="cRightDown" class="dragDot cRightDown"></div>
+        <div data-type="cLeftDown" class="dragDot cLeftDown"></div>
+        <div data-type="cRightUp" class="dragDot cRightUp"></div>
+        <div data-type="cLeftUp" class="dragDot cLeftUp"></div>
+        <div data-type="cRight" class="dragDot cRight"></div>
+        <div data-type="cDown" class="dragDot cDown"></div>
+        <div data-type="cLeft" class="dragDot cLeft"></div>
+        <div data-type="cUp" class="dragDot cUp"></div>
+    </div>
+    <div class="go">固定</div>
+    </div>
+    </div>
+     <div class="buttin">   
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+      
+</div>
+    <script src="js/html.js"></script>
+    <script src="js/jquery2.0.3.js"></script>
+    <script src="js/drag.js"></script>
+   <script>
+		function previewHandle(fileDOM) {
+    var file = fileDOM.files[0], // 获取文件
+        imageType = /^image\//,
+        reader = '';
+ 
+    // 文件是否为图片
+    if (!imageType.test(file.type)) {
+        alert("请选择图片！");
+        return;
+    }
+    // 判断是否支持FileReader    
+    if (window.FileReader) {
+        reader = new FileReader();
+    }
+    // IE9及以下不支持FileReader
+    else {
+        alert("您的浏览器不支持图片预览功能，如需该功能请升级您的浏览器！");
+        return;
+    }
+    // 读取完成    
+    reader.onload = function (event) {
+        // 获取图片DOM
+        var img = document.getElementById("preview-img");
+        // 图片路径设置为读取的图片    
+        img.src = event.target.result;
+       // img.width="50px"
+        
+    };
+    reader.readAsDataURL(file);
+}
+	</script>
+  </body>
+</html>

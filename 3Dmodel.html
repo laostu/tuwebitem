@@ -1,0 +1,189 @@
+﻿<!DOCTYPE>
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>三维模型设计</title>
+<link href="css/index.css" rel="stylesheet" type="text/css">
+<script src="js/html.js"></script>
+</head>
+<body style="overflow:-Scroll;overflow-x:hidden">
+<!--头部-->
+<div id="header">
+<div class="top">
+ <h1>基于WebGL的书法匾额生成</h1>
+     <div class="nav">
+       
+      <a href="main.html" class="hover";>首页</a><a href="query.asp" >书法字查询</a>     
+       <a href="vectorization.asp">书法字矢量化</a>
+       <a href="adjust.html">书法字调整</a><a style="color:BLUE;">三维模型设计</a>
+       <a href="preview.html">匾额预览</a><a href="create.html">匾额合成</a>
+     </div>
+  </div>
+</div>
+  <div class="xyz">
+      <div class="but">
+       <label>长：</label> 
+    <input type="number" id="xxx">
+      </div>
+     <div class="but">
+    <label>高：</label> 
+    <input type="number" id="yyy">
+     </div>
+     <div class="but">
+    <label>宽：</label> 
+    <input type="number" id="zzz">
+    </div>
+    <div class="but">
+    <input type="button" value="生成三维模型" onClick="javascript:createcft();">
+    </div>
+ </div> 
+ <div class="canin">
+ <div class="can2"><canvas id="canvas0" width="500px" height="240px"></canvas> 
+ <a id="download0" download="三维模型图片0.png">点我下载</a>
+ </div>
+ <div class="can2"><canvas id="canvas1" width="500px" height="240px"></canvas> 
+ <a id="download1" download="三维模型图片1.png">点我下载</a>
+ </div>  
+ <div class="can2"><canvas id="canvas2" width="500px" height="240px"></canvas> 
+ <a id="download2" download="三维模型图片2.png">点我下载</a>
+ </div>
+ <div class="can2"><canvas id="canvas3" width="500px" height="240px"></canvas>
+  <a id="download3" download="三维模型图片3.png">点我下载</a>
+  </div>
+ <div class="can2"><canvas id="canvas4" width="500px" height="240px"></canvas> 
+ <a id="download4" download="三维模型图片4.png">点我下载</a>
+ </div>
+ <div class="can2"><canvas id="canvas5" width="500px" height="240px"></canvas>
+ <a id="download5" download="三维模型图片5.png">点我下载</a>
+ </div>
+ </div>
+    <div class="buttin">   
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       <div class="butt"><img src="images/more.png"><p>到底啦！</p></div>
+       
+       
+</div>
+
+
+ <script type="text/javascript">
+	var count=0;
+	var becanvas = new Array();
+	var bectx= new Array();
+	becanvas[0]=document.getElementById("canvas0"),
+    bectx[0] = becanvas[0].getContext("2d");
+	becanvas[1]=document.getElementById("canvas1"),
+    bectx[1] = becanvas[1].getContext("2d");
+	becanvas[2]=document.getElementById("canvas2"),
+    bectx[2] = becanvas[2].getContext("2d");
+	becanvas[3]=document.getElementById("canvas3"),
+    bectx[3] = becanvas[3].getContext("2d");
+	becanvas[4]=document.getElementById("canvas4"),
+    bectx[4] = becanvas[4].getContext("2d");
+	becanvas[5]=document.getElementById("canvas5"),
+    bectx[5] = becanvas[5].getContext("2d");
+	function createcft(){
+		   if(count!=0){
+			   for(var bectx_i=0;bectx_i<bectx.length;bectx_i++){
+		   bectx[bectx_i].clearRect(0,0,canvas0.width,canvas0.height);
+			   }
+		  count=1;}
+			var x=document.getElementById( "xxx").value%1500;
+			var y=document.getElementById( "yyy").value%1500;
+			var z=document.getElementById( "zzz").value%1500;
+			if(x<1||x>600||y<1||y>200||z<1||z>50){
+				alert("请输入合适的长、宽、高：{长：0~600，宽：0~200，高：0~50}");
+				return;}		
+        var points = [
+            [0,0],
+            [x,0],
+            [x,-y],
+            [0,-y],
+            [z*Math.cos(45*Math.PI/180),-z*Math.sin(45*Math.PI/180)],
+            [z*Math.cos(45*Math.PI/180),-y-z*Math.sin(45*Math.PI/180)],
+            [x+z*Math.cos(45*Math.PI/180),-z*Math.sin(45*Math.PI/180)],
+            [x+z*Math.cos(45*Math.PI/180),-y-z*Math.sin(45*Math.PI/180)]
+        ];
+        var faces = [
+            [points[4],points[5],points[7],points[6]], //后
+            [points[0],points[4],points[6],points[1]], //下
+            [points[0],points[3],points[5],points[4]], //左
+            [points[1],points[2],points[7],points[6]], //右
+            [points[2],points[3],points[5],points[7]], //上
+            [points[0],points[3],points[2],points[1]], //前
+        ]
+        draw(250-x/2,120+y/2,0,0);				
+        draw(250-x/2,120+y/2,true,1);
+		draw(250-x/2,120+y/2,true,2);				
+        draw(250-x/2,120+y/2,true,3);
+		draw(250-x/2,120+y/2,true,4);				
+        draw(250-x/2,120+y/2,true,5);		
+        function draw(x,y,fill,can_item){
+            bectx[can_item].save();
+            bectx[can_item].translate(x,y);
+            for(var i=0,len=faces.length;i<len;i++){
+                var p = faces[i];
+                bectx[can_item].beginPath();
+                for(var j=0,l=p.length;j<l;j++){
+                    if(j==0){
+                        bectx[can_item].moveTo(p[j][0],p[j][1]);
+                    }else{
+                        bectx[can_item].lineTo(p[j][0],p[j][1]);
+                    }   
+                }
+                bectx[can_item].closePath();
+                if(fill){
+                    bectx[can_item].fillStyle = randC();
+                    bectx[can_item].fill();
+                }else{
+                    bectx[can_item].stroke();
+                }
+            }
+            bectx[can_item].restore();
+			count=1;
+        }
+        function randC(){
+            return 'rgb('+(~~(Math.random()*255))+","+(~~(Math.random()*255))+","+(~~(Math.random()*255))+")";
+        }		
+}
+download0.onclick = function(){
+        var img =  convertCanvasToImage(canvas0)
+        var arr = img.src.split(',')
+        download0.href = img.src
+      }
+download1.onclick = function(){
+        var img =  convertCanvasToImage(canvas1)
+        var arr = img.src.split(',')
+        download1.href = img.src
+      }
+download2.onclick = function(){
+        var img =  convertCanvasToImage(canvas2)
+        var arr = img.src.split(',')
+        download2.href = img.src
+      }	  
+download3.onclick = function(){
+        var img =  convertCanvasToImage(canvas3)
+        var arr = img.src.split(',')
+        download3.href = img.src
+      }	  
+download4.onclick = function(){
+        var img =  convertCanvasToImage(canvas4)
+        var arr = img.src.split(',')
+        download4.href = img.src
+      }	
+download5.onclick = function(){
+        var img =  convertCanvasToImage(canvas5)
+        var arr = img.src.split(',')
+        download5.href = img.src
+      }		  	  
+function convertCanvasToImage(canvas) {
+	      var image = new Image();
+	      image.src = canvas.toDataURL("image/png");
+	      return image;
+      }
+    </script>
+</body>
+</html>
